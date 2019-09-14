@@ -1,0 +1,7 @@
+﻿@page "/fetchdata"
+
+@Weather
+
+@code {
+    RenderFragment Weather = WeatherConnected.Get();
+}
