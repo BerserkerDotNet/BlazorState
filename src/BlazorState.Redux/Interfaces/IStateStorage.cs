@@ -4,8 +4,8 @@ namespace BlazorState.Redux.Interfaces
 {
     public interface IStateStorage
     {
-        ValueTask Save<T>(string key, T state);
+        ValueTask Save<T>(T state);
 
-        ValueTask<T> Get<T>(string key);
+        ValueTask<T> Get<T>();
     }
 }

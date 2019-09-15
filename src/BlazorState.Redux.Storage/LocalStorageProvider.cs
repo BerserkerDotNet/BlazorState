@@ -8,22 +8,24 @@ namespace BlazorState.Redux.Storage
 {
     public class LocalStorageProvider : IStateStorage
     {
+        private readonly string _key;
         private readonly LocalStorage _storage;
 
-        public LocalStorageProvider(LocalStorage storage)
+        public LocalStorageProvider(string key, LocalStorage storage)
         {
+            _key = key;
             _storage = storage;
         }
 
-        public async ValueTask<T> Get<T>(string key)
+        public async ValueTask<T> Get<T>()
         {
-            var stateJsonMemory = await _storage.GetItem<JsonElement>(key);
+            var stateJsonMemory = await _storage.GetItem<JsonElement>(_key);
             return JsonConvert.DeserializeObject<T>(stateJsonMemory.ToString());
         }
 
-        public async ValueTask Save<T>(string key, T state)
+        public async ValueTask Save<T>(T state)
         {
-            await _storage.SetItem(key, state);
+            await _storage.SetItem(_key, state);
         }
     }
 }

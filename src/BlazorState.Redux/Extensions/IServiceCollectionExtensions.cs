@@ -13,6 +13,9 @@ namespace BlazorState.Redux.Extensions
         public static void AddReduxStore<TRootState>(this IServiceCollection services, Action<ReduxStoreConfig<TRootState>> cfg)
             where TRootState : new()
         {
+            services.AddSingleton<IActionResolver, BlazorActionResolver>();
+            services.AddSingleton<IStateStorage, NullStateStorage>();
+
             var reducerMapping = ReducerMappingBuilder<TRootState>.Create();
             var config = new ReduxStoreConfig<TRootState>(services, reducerMapping);
             cfg(config);
@@ -44,8 +47,8 @@ namespace BlazorState.Redux.Extensions
                 s.GetService<IDevToolsInterop>()));
 
             services.AddSingleton(storeActivator);
-            services.AddSingleton<IActionResolver, BlazorActionResolver>();
-            services.AddSingleton<IStateStorage, NullStateStorage>();
+            services.AddSingleton<IDispatcher>(s => s.GetRequiredService<IStore<TRootState>>());
+            services.AddSingleton<IStoreInitializer>(s => s.GetRequiredService<IStore<TRootState>>());
         }
     }
 }

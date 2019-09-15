@@ -5,12 +5,12 @@ namespace BlazorState.Redux
 {
     public class NullStateStorage : IStateStorage
     {
-        public ValueTask<T> Get<T>(string key)
+        public ValueTask<T> Get<T>()
         {
             return new ValueTask<T>(Task.FromResult<T>(default));
         }
 
-        public ValueTask Save<T>(string key, T state)
+        public ValueTask Save<T>(T state)
         {
             return new ValueTask(Task.CompletedTask);
         }

@@ -32,13 +32,19 @@ namespace BlazorState.Redux
         {
             if (!_isInitialized)
             {
+                Console.WriteLine("Initializing store.");
                 _isInitialized = true;
                 _navigationTracker.Start(this);
-                var state = await _storage.Get<TState>("AppState");
+                var state = await _storage.Get<TState>();
                 SetState(state);
-                await _devToolsInterop.Init(state);
-                _devToolsInterop.OnJumpToStateChanged += InteropOnJumpToStateChanged;
+                _navigationTracker.Navigate(state);
             }
+        }
+
+        public async ValueTask InitializeDevTools()
+        {
+            await _devToolsInterop.Init(State);
+            _devToolsInterop.OnJumpToStateChanged += InteropOnJumpToStateChanged;
         }
 
         public void Dispatch(IAction action)
@@ -49,7 +55,7 @@ namespace BlazorState.Redux
             }
 
             SetState(_rootReducer.Reduce(State, action));
-            _storage.Save("AppState", State);
+            _storage.Save(State);
             _devToolsInterop.Send(action, State);
         }
 

@@ -2,6 +2,7 @@
     reduxDevTools: null,
     interop: null,
     init: function () {
+        console.log('Initializing dev tools!');
         var self = window.BlazorRedux;
         var ext = window.__REDUX_DEVTOOLS_EXTENSION__;
 
@@ -17,7 +18,6 @@
         }
 
         self.reduxDevTools.subscribe(function (message) {
-            console.log("RM:", message);
             if (self.interop) {
                 self.interop.invokeMethod("ReceiveMessage", message);
             }

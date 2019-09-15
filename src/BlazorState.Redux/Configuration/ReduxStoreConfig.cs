@@ -7,24 +7,24 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorState.Redux.Configuration
 {
-
     public class ReduxStoreConfig<TRootState>
          where TRootState : new()
     {
-        private readonly IServiceCollection _services;
         private readonly ReducerMappingBuilder<TRootState> _reducerMapper;
 
         public ReduxStoreConfig(IServiceCollection services, ReducerMappingBuilder<TRootState> reducerMapper)
         {
-            _services = services;
+            Services = services;
             _reducerMapper = reducerMapper;
         }
 
-        public bool UseDevTools { get; private set; }
+        internal bool UseDevTools { get; private set; }
 
-        public Func<TRootState, string> LocationProperty { get; private set; }
+        internal Func<TRootState, string> LocationProperty { get; private set; }
 
-        public Func<IServiceProvider, IStore<TRootState>> StoreActivator { get; private set; }
+        internal Func<IServiceProvider, IStore<TRootState>> StoreActivator { get; private set; }
+
+        public IServiceCollection Services { get; }
 
         public void UseReduxDevTools()
         {
@@ -51,13 +51,13 @@ namespace BlazorState.Redux.Configuration
         public void RegisterAsyncAction<TAsyncAction, TProperty>()
             where TAsyncAction : class, IAsyncAction<TProperty>
         {
-            _services.AddTransient<TAsyncAction>();
+            Services.AddTransient<TAsyncAction>();
         }
 
         public void RegisterAsyncAction<TAsyncAction>()
             where TAsyncAction : class, IAsyncAction
         {
-            _services.AddTransient<TAsyncAction>();
+            Services.AddTransient<TAsyncAction>();
         }
 
         public void RegisterActionsFromAssemblyContaining<TAsyncAction>()
@@ -72,7 +72,7 @@ namespace BlazorState.Redux.Configuration
 
             foreach (var action in asyncActions)
             {
-                _services.AddTransient(action);
+                Services.AddTransient(action);
             }
         }
 

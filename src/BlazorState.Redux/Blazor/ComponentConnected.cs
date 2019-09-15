@@ -29,11 +29,10 @@ namespace BlazorState.Redux.Blazor
             Store.OnStateChanged -= OnStateChanged;
         }
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             InitializeProps();
             Store.OnStateChanged += OnStateChanged;
-            await Store.Initialize();
         }
 
         protected override async Task OnParametersSetAsync()

@@ -8,9 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19424.4" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19424.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.0.0-preview9.19424.4" />
@@ -18,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BlazorState.Redux.Storage\BlazorState.Redux.Storage.csproj" />
     <ProjectReference Include="..\..\src\BlazorState.Redux\BlazorState.Redux.csproj" />
   </ItemGroup>
 

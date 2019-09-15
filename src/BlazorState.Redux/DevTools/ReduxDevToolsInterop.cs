@@ -16,9 +16,16 @@ namespace BlazorState.Redux.DevTools
 
         public event EventHandler<JumpToStateEventArgs> OnJumpToStateChanged;
 
-        public ValueTask Init(object state)
+        public async ValueTask Init(object state)
         {
-            return _jSRuntime.InvokeVoidAsync("window.BlazorRedux.sendInitial", state, DotNetObjectReference.Create(this));
+            try
+            {
+                await _jSRuntime.InvokeVoidAsync("window.BlazorRedux.sendInitial", state, DotNetObjectReference.Create(this));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failied to send initial state to dev tools. {ex.Message}");
+            }
         }
 
         public ValueTask Send(IAction action, object state)
