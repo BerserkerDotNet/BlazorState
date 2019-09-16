@@ -8,7 +8,9 @@ namespace BlazorState.Redux.Interfaces
     {
         event EventHandler<JumpToStateEventArgs> OnJumpToStateChanged;
 
-        ValueTask Init(object state);
+        ValueTask OnToolsReady();
+
+        ValueTask SendInitial(object state);
 
         ValueTask Send(IAction action, object state);
 

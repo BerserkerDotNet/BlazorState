@@ -32,7 +32,6 @@ namespace BlazorState.Redux
         {
             if (!_isInitialized)
             {
-                Console.WriteLine("Initializing store.");
                 _isInitialized = true;
                 _navigationTracker.Start(this);
                 var state = await _storage.Get<TState>();
@@ -43,7 +42,7 @@ namespace BlazorState.Redux
 
         public async ValueTask InitializeDevTools()
         {
-            await _devToolsInterop.Init(State);
+            await _devToolsInterop.SendInitial(State);
             _devToolsInterop.OnJumpToStateChanged += InteropOnJumpToStateChanged;
         }
 

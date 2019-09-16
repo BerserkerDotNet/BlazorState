@@ -10,7 +10,7 @@ namespace BlazorState.Redux.DevTools
         public event EventHandler<JumpToStateEventArgs> OnJumpToStateChanged;
 #pragma warning restore CS0067
 
-        public ValueTask Init(object state)
+        public ValueTask SendInitial(object state)
         {
             return new ValueTask(Task.CompletedTask);
         }
@@ -20,6 +20,11 @@ namespace BlazorState.Redux.DevTools
         }
 
         public ValueTask Send(IAction action, object state)
+        {
+            return new ValueTask(Task.CompletedTask);
+        }
+
+        public ValueTask OnToolsReady()
         {
             return new ValueTask(Task.CompletedTask);
         }

@@ -2,7 +2,6 @@
     reduxDevTools: null,
     interop: null,
     init: function () {
-        console.log('Initializing dev tools!');
         var self = window.BlazorRedux;
         var ext = window.__REDUX_DEVTOOLS_EXTENSION__;
 
@@ -22,14 +21,19 @@
                 self.interop.invokeMethod("ReceiveMessage", message);
             }
         });
+
+        DotNet.invokeMethodAsync("BlazorState.Redux", "DevToolsReady");
     },
     send: function (action, data, state) {
         var self = window.BlazorRedux;
         self.reduxDevTools.send({type: action, payload: data}, state);
     },
-    sendInitial: function (state, interop) {
+    sendInitial: function (state) {
         var self = window.BlazorRedux;
         self.reduxDevTools.init(state);
+    },
+    setInteropInstance: function (interop) {
+        var self = window.BlazorRedux;
         self.interop = interop;
     }
 };
