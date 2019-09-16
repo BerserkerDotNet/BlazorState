@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BlazorState.Redux.DevTools;
 using BlazorState.Redux.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -11,12 +12,14 @@ namespace BlazorState.Redux.Blazor
         [Inject]
         protected IStoreInitializer StoreInitializer { get; set; }
 
-        [Parameter]
-        public bool DevTools { get; set; }
+        [Inject]
+        protected IDevToolsInterop DevTools { get; set; }
+
+        protected bool UseDevTools => !(DevTools is NullDevToolsInterop);
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            if (DevTools)
+            if (UseDevTools)
             {
                 builder.OpenElement(1, "script");
                 builder.AddAttribute(2, "src", "/js/reduxdevtools.js");
@@ -32,7 +35,7 @@ namespace BlazorState.Redux.Blazor
             {
                 await StoreInitializer.Initialize();
 
-                if (DevTools)
+                if (UseDevTools)
                 {
                     await StoreInitializer.InitializeDevTools();
                 }
