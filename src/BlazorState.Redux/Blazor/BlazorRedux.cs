@@ -22,7 +22,7 @@ namespace BlazorState.Redux.Blazor
             if (UseDevTools)
             {
                 builder.OpenElement(1, "script");
-                builder.AddAttribute(2, "src", "/js/reduxdevtools.js");
+                builder.AddAttribute(2, "src", "_content/BlazorState.Redux/js/reduxdevtools.js");
                 builder.CloseElement();
             }
 

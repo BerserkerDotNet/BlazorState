@@ -19,12 +19,4 @@
     <ProjectReference Include="..\..\src\BlazorState.Redux\BlazorState.Redux.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\js\" />
-  </ItemGroup>
-
-  <Target Name="CopyCustomContent" AfterTargets="BeforeBuild">
-    <Copy SourceFiles="..\..\src\BlazorState.Redux\wwwroot\js\reduxdevtools.js" DestinationFolder="wwwroot\js\" />
-  </Target>
-
 </Project>
