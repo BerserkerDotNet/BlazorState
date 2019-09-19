@@ -22,14 +22,15 @@ namespace BlazorState.Redux.Configuration
         public ReducerMappingBuilder<TRootState> Map<TProperty>(Expression<Func<TRootState, TProperty>> property, IReducer<TProperty> reducer)
         {
             var propertyName = GetProperty(property);
-            _reducerMaps.Add(propertyName, (object)reducer);
+            _reducerMaps.Add(propertyName, reducer);
             return this;
         }
 
-        public ReducerMappingBuilder<TRootState> Map<TProperty>(Expression<Func<TRootState, TProperty>> property, Type reducer)
+        public ReducerMappingBuilder<TRootState> Map<TReducer, TProperty>(Expression<Func<TRootState, TProperty>> property)
+            where TReducer : IReducer<TProperty>, new()
         {
             var propertyName = GetProperty(property);
-            _reducerMaps.Add(propertyName, (IReducer<object>)reducer);
+            _reducerMaps.Add(propertyName, new TReducer());
             return this;
         }
 
