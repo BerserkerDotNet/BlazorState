@@ -38,8 +38,14 @@ namespace BlazorState.Redux.Blazor.Navigation
                     return;
                 }
 
+                var location = _property(state);
+                if (string.IsNullOrEmpty(location))
+                {
+                    return;
+                }
+
                 _isTimeTraveling = true;
-                _navigation.NavigateTo(_property(state));
+                _navigation.NavigateTo(location);
             }
             finally
             {
