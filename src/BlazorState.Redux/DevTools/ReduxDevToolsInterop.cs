@@ -37,7 +37,6 @@ namespace BlazorState.Redux.DevTools
 
         public ValueTask SendInitial(object state)
         {
-
             if (!_toolsReady)
             {
                 _messages.Add((null, state));

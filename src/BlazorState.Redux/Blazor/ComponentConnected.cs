@@ -12,9 +12,6 @@ namespace BlazorState.Redux.Blazor
     {
         private TProps _props;
 
-        [Inject]
-        protected IStore<TState> Store { get; set; }
-
         [Parameter]
         public Action<TState, TProps> MapStateToProps { get; set; }
 
@@ -23,6 +20,9 @@ namespace BlazorState.Redux.Blazor
 
         [Parameter]
         public Func<IStore<TState>, Task> Init { get; set; }
+
+        [Inject]
+        protected IStore<TState> Store { get; set; }
 
         public void Dispose()
         {

@@ -18,13 +18,13 @@ namespace BlazorState.Redux.Configuration
             _reducerMapper = reducerMapper;
         }
 
+        public IServiceCollection Services { get; }
+
         internal bool UseDevTools { get; private set; }
 
         internal Func<TRootState, string> LocationProperty { get; private set; }
 
         internal Func<IServiceProvider, IStore<TRootState>> StoreActivator { get; private set; }
-
-        public IServiceCollection Services { get; }
 
         public void UseReduxDevTools()
         {
@@ -43,7 +43,7 @@ namespace BlazorState.Redux.Configuration
         }
 
         public void Map<TReducer, TProperty>(Expression<Func<TRootState, TProperty>> property)
-            where TReducer: IReducer<TProperty>, new()
+            where TReducer : IReducer<TProperty>, new()
         {
             _reducerMapper.Map(property, new TReducer());
         }

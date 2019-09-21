@@ -17,5 +17,4 @@ namespace BlazorState.Redux
             return (T)_serviceProvider.GetService(typeof(T));
         }
     }
-
 }
