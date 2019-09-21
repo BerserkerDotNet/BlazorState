@@ -43,6 +43,7 @@ steps:
     SourceFolder: '$(Build.SourcesDirectory)\\src'
     Contents: '**\\$(buildConfiguration)\\*.nupkg'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
