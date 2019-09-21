@@ -2,6 +2,12 @@
 
 As the name suggests it is a port of [React-Redux][1] library to Blazor/.NET world.
 
+[![Build Status](https://berserkerdotnet.visualstudio.com/BlazorState.Redux/_apis/build/status/BerserkerDotNet.BlazorState.Redux?branchName=master)](https://berserkerdotnet.visualstudio.com/BlazorState.Redux/_build/latest?definitionId=8&branchName=master)
+
+[![Nuget](https://buildstats.info/nuget/BlazorState.Redux?v=1.0.0)](https://www.nuget.org/packages/BlazorState.Redux)
+
+[![Nuget](https://buildstats.info/nuget/BlazorState.Redux.Storage?v=1.0.0)](https://www.nuget.org/packages/BlazorState.Redux.Storage)
+
 - [BlazorState.Redux](#blazorstateredux)
   - [Why should I care?](#why-should-i-care)
   - [Installing](#installing)
