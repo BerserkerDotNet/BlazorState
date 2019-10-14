@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{F57B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorState.Redux.Sample", "samples\BlazorState.Redux.Sample\BlazorState.Redux.Sample.csproj", "{60CCF2E6-A38D-4621-83B5-82057E4205DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorState.Redux.Tests", "tests\BlazorState.Redux.Tests\BlazorState.Redux.Tests.csproj", "{795B3814-43EC-4E85-A61D-FBAE974BEF90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{60CCF2E6-A38D-4621-83B5-82057E4205DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60CCF2E6-A38D-4621-83B5-82057E4205DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60CCF2E6-A38D-4621-83B5-82057E4205DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{795B3814-43EC-4E85-A61D-FBAE974BEF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{795B3814-43EC-4E85-A61D-FBAE974BEF90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{795B3814-43EC-4E85-A61D-FBAE974BEF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{795B3814-43EC-4E85-A61D-FBAE974BEF90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +53,7 @@ Global
 		{F5205F8C-C725-46D3-89BC-D89432B91CB9} = {47C46061-5EE2-4C9B-A818-BD0B97AC1E12}
 		{1EF8B9CA-26D6-4E88-9BF2-C486151486EC} = {47C46061-5EE2-4C9B-A818-BD0B97AC1E12}
 		{60CCF2E6-A38D-4621-83B5-82057E4205DE} = {F57B9C6C-ADC9-4E3F-B7AE-0DF034BD6232}
+		{795B3814-43EC-4E85-A61D-FBAE974BEF90} = {CBE19770-8C9C-422F-A3D7-4D2DF44BB705}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56ACD4A7-83DC-4FF8-8EB3-71F0E36069AD}
