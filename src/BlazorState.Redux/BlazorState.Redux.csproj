@@ -16,6 +16,9 @@
     <Description>Port of React-Redux library to Blazor/.NET world.</Description>
     <Copyright>Andrii Snihyr 2019</Copyright>
   </PropertyGroup>
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
