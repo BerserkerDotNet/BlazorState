@@ -66,6 +66,8 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetProjectFile(Solution.GetProject("BlazorState.Redux.Tests"))
                 .SetConfiguration(Configuration)
+                .SetLogger("trx")
+                .SetResultsDirectory(ArtifactsDirectory / "TestResults")
                 .EnableNoBuild()
                 .EnableNoRestore());
         });
