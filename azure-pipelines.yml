@@ -9,6 +9,12 @@ steps:
   displayName: 'Build & Package'
   inputs:
     filePath: 'build.ps1'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '*.trx'
+    searchFolder: '$(System.DefaultWorkingDirectory)/artifacts/TestResults'
+    mergeTestResults: true
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
   inputs:
