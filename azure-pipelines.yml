@@ -1,53 +1,29 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
 pool:
   vmImage: 'windows-latest'
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
 steps:
-- task: NuGetToolInstaller@0
-
 - task: UseDotNet@2
-  displayName: 'Use DotNet'
+  displayName: "Use DotNET 3.1"
   inputs:
-    packageType: 'sdk'
-    version: '3.0.100-preview9-014004'
+    packageType: "sdk"
+    version: "3.1.100"
     includePreviewVersions: true
-
-- task: DotNetCoreCLI@2
-  displayName: 'Restore'
+- task: PowerShell@2
+  displayName: 'Build & Package'
   inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build'
+    filePath: 'build.ps1'
+- task: PublishTestResults@2
   inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
-
-- task: CopyFiles@2
-  displayName: 'Copy Nuget To Artifacts'
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)\\src'
-    Contents: '**\\$(buildConfiguration)\\*.nupkg'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    flattenFolders: true
-
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '*.trx'
+    searchFolder: '$(System.DefaultWorkingDirectory)/artifacts/TestResults'
+    mergeTestResults: true
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: 'artifacts'
     ArtifactName: 'drop'
     publishLocation: 'Container'

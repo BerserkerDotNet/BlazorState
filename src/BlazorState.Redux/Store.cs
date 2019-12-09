@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BlazorState.Redux.DevTools;
+using BlazorState.Redux.Exceptions;
 using BlazorState.Redux.Interfaces;
 using Newtonsoft.Json;
 
@@ -14,6 +15,7 @@ namespace BlazorState.Redux
         private readonly INavigationTracker<TState> _navigationTracker;
         private readonly IDevToolsInterop _devToolsInterop;
         private bool _isInitialized = false;
+        private bool _isInitializedDevTools = false;
 
         public Store(IReducer<TState> rootReducer, IActionResolver actionResolver, IStateStorage storage, INavigationTracker<TState> navigationTracker, IDevToolsInterop devToolsInterop)
         {
@@ -42,8 +44,12 @@ namespace BlazorState.Redux
 
         public async ValueTask InitializeDevTools()
         {
-            await _devToolsInterop.SendInitial(State);
-            _devToolsInterop.OnJumpToStateChanged += InteropOnJumpToStateChanged;
+            if (!_isInitializedDevTools)
+            {
+                _isInitializedDevTools = true;
+                await _devToolsInterop.SendInitial(State);
+                _devToolsInterop.OnJumpToStateChanged += InteropOnJumpToStateChanged;
+            }
         }
 
         public void Dispatch(IAction action)
@@ -62,6 +68,11 @@ namespace BlazorState.Redux
             where TAsyncAction : IAsyncAction<TProperty>
         {
             var action = _actionResolver.Resolve<TAsyncAction>();
+            if (action == null)
+            {
+                throw new ActionIsNotRegisteredException($"{typeof(TAsyncAction)} is not registered in the container.");
+            }
+
             await action.Execute(this, property);
         }
 
@@ -69,6 +80,11 @@ namespace BlazorState.Redux
             where TAsyncAction : IAsyncAction
         {
             var action = _actionResolver.Resolve<TAsyncAction>();
+            if (action == null)
+            {
+                throw new ActionIsNotRegisteredException($"{typeof(TAsyncAction)} is not registered in the container.");
+            }
+
             await action.Execute(this);
         }
 
