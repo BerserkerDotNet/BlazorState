@@ -1,0 +1,78 @@
+﻿@implements IDisposable
+@inherits HookedComponentBase
+
+@{ var (count, setCount) = UseState(0); }
+@{ var (age, setAge) = UseState(21); }
+@{ var (gender, setGender) = UseState("Empty"); }
+@{ var (user, setUser) = UseState(new ComplexState("John", "Doe")); }
+
+<h1>CounterOnHooks</h1>
+
+<p>Current count: @count</p>
+
+<p>User: @user.FirstName @user.LastName</p>
+<p>Age: @age</p>
+<p>Gender: @gender</p>
+<p>Address: @user.Address</p>
+
+
+<input value="@user.FirstName" @onchange="s => setUser(user.WithFirstName(s.Value.ToString()))" />
+<input value="@user.LastName" @onchange="s => setUser(user.WithLastName(s.Value.ToString()))" />
+<input value="@user.Address" @onchange="s => setUser(user.WithAddress(s.Value.ToString()))" />
+
+<button class="btn btn-primary" @onclick="() => setCount(count + 1)">+1</button>
+<button class="btn btn-primary" @onclick="() => setCount(count - 1)">-1</button>
+<button class="btn btn-danger" @onclick="() => setCount(0)">Reset</button>
+
+<button class="btn btn-primary" @onclick="() => setAge(18)">18</button>
+<button class="btn btn-primary" @onclick="() => setAge(21)">21</button>
+<button class="btn btn-primary" @onclick="() => setAge(50)">50</button>
+
+<select value="@gender" @onchange="a => OnGenderChange(a, setGender)">
+    <option value="Empty"></option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+</select>
+
+@code {
+
+    public void Dispose()
+    {
+        Console.WriteLine("Disposed");
+    }
+
+    protected void OnGenderChange(ChangeEventArgs args, Action<string> setGender)
+    {
+        setGender(args.Value.ToString());
+    }
+
+    public class ComplexState
+    {
+        public ComplexState(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+        }
+
+        public string Address { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public ComplexState WithFirstName(string newName)
+        {
+            return new ComplexState(newName, this.LastName) { Address = this.Address };
+        }
+
+        public ComplexState WithLastName(string newName)
+        {
+            return new ComplexState(this.FirstName, newName) { Address = this.Address };
+        }
+
+        public ComplexState WithAddress(string newAddress)
+        {
+            return new ComplexState(this.FirstName, this.LastName) { Address = newAddress };
+        }
+    }
+}

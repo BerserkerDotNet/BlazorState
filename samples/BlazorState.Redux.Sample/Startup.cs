@@ -12,6 +12,7 @@ namespace BlazorState.Redux.Sample
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHooks();
             services.AddReduxStore<RootState>(cfg =>
             {
                 cfg.UseReduxDevTools();
