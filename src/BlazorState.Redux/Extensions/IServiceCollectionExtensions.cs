@@ -54,7 +54,7 @@ namespace BlazorState.Redux.Extensions
 
         public static void AddHooks(this IServiceCollection services)
         {
-            services.AddSingleton<IHookService, HooksService>();
+            services.AddSingleton<IHooksService, HooksService>();
         }
     }
 }

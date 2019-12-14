@@ -7,7 +7,7 @@ namespace BlazorState.Redux.Hooks
     public class HookedComponentBase : ComponentBase, IDisposable
     {
         [Inject]
-        private IHookService Service { get; set; }
+        private IHooksService Service { get; set; }
 
         public virtual void Dispose()
         {

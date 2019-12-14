@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorState.Redux.Hooks
 {
-    // TODO: add component to have hooks enabled
-    public class HooksService : IHookService
+    public class HooksService : IHooksService
     {
-        private Dictionary<ComponentBase, ComponentState> _stateStore = new Dictionary<ComponentBase, ComponentState>();
+        private Dictionary<IComponent, ComponentState> _stateStore = new Dictionary<IComponent, ComponentState>();
 
-        public (T, Action<T>) UseState<T>(T initialState, ComponentBase component)
+        public (T, Action<T>) UseState<T>(T initialState, IComponent component)
         {
             if (!_stateStore.ContainsKey(component))
             {
@@ -23,7 +22,7 @@ namespace BlazorState.Redux.Hooks
             return (componentState.GetNext<T>(), s => SetState(s, componentState, currentIdxClouser));
         }
 
-        public void ComponentRendered(ComponentBase component)
+        public void ComponentRendered(IComponent component)
         {
             if (_stateStore.ContainsKey(component))
             {
@@ -32,7 +31,7 @@ namespace BlazorState.Redux.Hooks
             }
         }
 
-        public void ComponentDisposed(ComponentBase component)
+        public void ComponentDisposed(IComponent component)
         {
             if (_stateStore.ContainsKey(component))
             {
