@@ -2,7 +2,6 @@
 using BlazorState.Redux.Blazor.Navigation;
 using BlazorState.Redux.Configuration;
 using BlazorState.Redux.DevTools;
-using BlazorState.Redux.Hooks;
 using BlazorState.Redux.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,11 +49,6 @@ namespace BlazorState.Redux.Extensions
             services.AddSingleton(storeActivator);
             services.AddSingleton<IDispatcher>(s => s.GetRequiredService<IStore<TRootState>>());
             services.AddSingleton<IStoreInitializer>(s => s.GetRequiredService<IStore<TRootState>>());
-        }
-
-        public static void AddHooks(this IServiceCollection services)
-        {
-            services.AddSingleton<IHooksService, HooksService>();
         }
     }
 }
