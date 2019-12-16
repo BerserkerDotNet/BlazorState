@@ -6,7 +6,17 @@
 @{ var (gender, setGender) = UseState(s => s.Gender); }
 @{ var (user, setUser) = UseState(s => s.User); }
 
-<h1>STate backed by global state</h1>
+<h1>Defer state persistance</h1>
+
+@if (showNotification)
+{
+    <div class="alert alert-success" role="alert">
+        Changes saved!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 
 <p>Current count: @count</p>
 <div class="form-group">
@@ -48,7 +58,11 @@
     </select>
 </div>
 
+<button class="btn btn-success" @onclick="Save">Save</button>
+
 @code {
+
+    private bool showNotification = false;
 
     [Parameter]
     public PersistedCounterState Props { get; set; }
@@ -56,5 +70,17 @@
     protected void OnGenderChange(ChangeEventArgs args, Action<string> setGender)
     {
         setGender(args.Value.ToString());
+    }
+
+    protected override void OnInitialized()
+    {
+        DeferStatePersistans();
+        base.OnInitialized();
+    }
+
+    private void Save(MouseEventArgs args)
+    {
+        Persist();
+        showNotification = true;
     }
 }

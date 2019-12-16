@@ -7,7 +7,7 @@ namespace BlazorState.Hooks
     public abstract class HookedComponentBase : ComponentBase, IDisposable
     {
         [Inject]
-        private IHooksService Service { get; set; }
+        protected internal IHooksService Service { get; set; }
 
         public virtual void Dispose()
         {

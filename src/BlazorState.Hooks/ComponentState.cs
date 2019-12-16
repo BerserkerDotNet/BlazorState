@@ -22,7 +22,7 @@ namespace BlazorState.Hooks
         {
             if (CurrentIndex >= _state.Count)
             {
-                throw new ArgumentOutOfRangeException("useState is not registered");
+                throw new ArgumentOutOfRangeException($"useState is not registered. Requested: {CurrentIndex}; Registered: {_state.Count}");
             }
 
             return (T)_state[CurrentIndex++];
