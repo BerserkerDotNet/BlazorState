@@ -1,6 +1,7 @@
 using BlazorState.Hooks.Extensions;
 using BlazorState.Redux.Extensions;
 using BlazorState.Redux.Storage;
+using BlazorState.Sample.Components.Props;
 using BlazorState.Sample.State.Actions;
 using BlazorState.Sample.State.Reducers;
 using BlazorState.Sample.State.Types;
@@ -13,6 +14,8 @@ namespace BlazorState.Sample
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            var state = new PersistedCounterState { User = new UserModel("John", "Doe") };
+            services.AddSingleton(state);
             services.AddHooks();
             services.AddReduxStore<RootState>(cfg =>
             {

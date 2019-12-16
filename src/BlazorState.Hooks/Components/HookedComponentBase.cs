@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorState.Hooks
 {
-    public class HookedComponentBase : ComponentBase, IDisposable
+    public abstract class HookedComponentBase : ComponentBase, IDisposable
     {
         [Inject]
         private IHooksService Service { get; set; }

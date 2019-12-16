@@ -1,10 +1,10 @@
 ﻿@implements IDisposable
-@inherits HookedComponentBase
+@inherits PersistedHookedComponentBase<PersistedCounterState>
 
-@{ var (count, setCount) = UseState(InitialCount); }
-@{ var (age, setAge) = UseState(21); }
-@{ var (gender, setGender) = UseState("Empty"); }
-@{ var (user, setUser) = UseState(new Props.UserModel("John", "Doe")); }
+@{ var (count, setCount) = UseState(s => s.Count); }
+@{ var (age, setAge) = UseState(s => s.Age); }
+@{ var (gender, setGender) = UseState(s => s.Gender); }
+@{ var (user, setUser) = UseState(s => s.User); }
 
 <h1>CounterOnHooks</h1>
 
@@ -51,7 +51,7 @@
 @code {
 
     [Parameter]
-    public int InitialCount { get; set; }
+    public PersistedCounterState Props { get; set; }
 
     protected void OnGenderChange(ChangeEventArgs args, Action<string> setGender)
     {
