@@ -9,8 +9,8 @@
     <Authors>Andrii Snihyr</Authors>
     <Company />
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/BerserkerDotNet/BlazorState.Redux</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/BerserkerDotNet/BlazorState.Redux</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BerserkerDotNet/BlazorState</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BerserkerDotNet/BlazorState</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Blazor Redux State</PackageTags>
     <Description>Port of React-Redux library to Blazor/.NET world.</Description>

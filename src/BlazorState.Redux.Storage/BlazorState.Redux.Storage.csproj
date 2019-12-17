@@ -6,8 +6,8 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <Authors>Andrii Snihyr</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/BerserkerDotNet/BlazorState.Redux</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/BerserkerDotNet/BlazorState.Redux</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BerserkerDotNet/BlazorState</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BerserkerDotNet/BlazorState</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Blazor Redux State Store LocalStorage</PackageTags>
     <Copyright>Andrii Snihyr 2019</Copyright>
