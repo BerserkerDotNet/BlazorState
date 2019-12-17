@@ -1,12 +1,84 @@
-# BlazorState.Redux
+# BlazorState
 
-As the name suggests it is a port of [React-Redux][1] library to Blazor/.NET world.
+A collection of libraries to help manage state in Blazor applications.
 
 [![Build Status](https://berserkerdotnet.visualstudio.com/BlazorState.Redux/_apis/build/status/BerserkerDotNet.BlazorState.Redux?branchName=master)](https://berserkerdotnet.visualstudio.com/BlazorState.Redux/_build/latest?definitionId=8&branchName=master)
+
+[![Nuget](https://buildstats.info/nuget/BlazorState.Hooks?v=1.0.0)](https://www.nuget.org/packages/BlazorState.Hooks)
 
 [![Nuget](https://buildstats.info/nuget/BlazorState.Redux?v=1.0.0)](https://www.nuget.org/packages/BlazorState.Redux)
 
 [![Nuget](https://buildstats.info/nuget/BlazorState.Redux.Storage?v=1.0.0)](https://www.nuget.org/packages/BlazorState.Redux.Storage)
+
+## BlazorState.Hooks
+
+Is an easy and light weight way of managing state in Blazor app.
+It is very similar to ["Hooks"](https://reactjs.org/docs/hooks-intro.html) feature in React, but different.
+
+To use Hooks, install `BlazorState.Hooks` Nuget package.
+   ```powershell
+   Install-Package BlazorState.Hooks
+   ```
+   or
+   ```bash
+   dotnet add package BlazorState.Hooks
+   ```
+In the `Startup.cs` add `services.AddHooks();` to register necessary dependencies.
+
+### Transient component state
+
+Inherit your component from `HookedComponentBase`.
+Define state using `UseState` method in the markup.
+
+```html
+@inherits HookedComponentBase
+
+@{ var (count, setCount) = UseState(InitialCount); }
+<p>Current count: @count</p>
+<div class="form-group">
+    <button class="btn btn-primary" @onclick="() => setCount(count + 1)">+1</button>
+    <button class="btn btn-primary" @onclick="() => setCount(count - 1)">-1</button>
+    <button class="btn btn-danger" @onclick="() => setCount(0)">Reset</button>
+</div>
+```
+In this case component state is created per component insatnce and disposed when component gets disposed.
+
+See [CounterOnHooks.razor](https://github.com/BerserkerDotNet/BlazorState/blob/master/samples/BlazorState.Sample/Components/CounterOnHooks.razor) for an example.
+
+### Persistent component state
+
+Allows the component state to be mapped to an entity outside the component's lifetime.
+
+Inherit your component from `PersistedHookedComponentBase<TState>`, provide type of the object used to store state.
+Define state using `UseState` method.
+`PersistedHookedComponentBase<TState>` will look for `Props` property of type TState. You can override `GetStateProperty` method to control the property used.
+
+```html
+@inherits PersistedHookedComponentBase<PersistedCounterState>
+
+@{ var (count, setCount) = UseState(s => s.Count); }
+<p>Current count: @count</p>
+<div class="form-group">
+    <button class="btn btn-primary" @onclick="() => setCount(count + 1)">+1</button>
+    <button class="btn btn-primary" @onclick="() => setCount(count - 1)">-1</button>
+    <button class="btn btn-danger" @onclick="() => setCount(0)">Reset</button>
+</div>
+  @code {
+
+    [Parameter]
+    public PersistedCounterState Props { get; set; }
+  
+  }
+```
+
+By default, value is immediatly set to the backing entity property, this can behavior can be changed by calling `DeferStatePersistans` method in the component initializer. Later when ready to synchronize state with a backing object, call `Persist` method.
+See, [CounterOnHooksDeferredPersisted](https://github.com/BerserkerDotNet/BlazorState/blob/master/samples/BlazorState.Sample/Components/CounterOnHooksDeferredPersisted.razor) for an example.
+
+All samples can be found here [samples](https://github.com/BerserkerDotNet/BlazorState/tree/master/samples/BlazorState.Sample/Components).
+
+## BlazorState.Redux
+
+As the name suggests it is a port of [React-Redux][1] library to Blazor/.NET world.
 
 - [BlazorState.Redux](#blazorstateredux)
   - [Why should I care?](#why-should-i-care)
