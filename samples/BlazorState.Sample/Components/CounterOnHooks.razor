@@ -1,0 +1,60 @@
+﻿@implements IDisposable
+@inherits HookedComponentBase
+
+@{ var (count, setCount) = UseState(InitialCount); }
+@{ var (age, setAge) = UseState(21); }
+@{ var (gender, setGender) = UseState("Empty"); }
+@{ var (user, setUser) = UseState(new Props.UserModel("John", "Doe")); }
+
+<h1>Using hooks to add state to component</h1>
+
+<p>Current count: @count</p>
+<div class="form-group">
+    <button class="btn btn-primary" @onclick="() => setCount(count + 1)">+1</button>
+    <button class="btn btn-primary" @onclick="() => setCount(count - 1)">-1</button>
+    <button class="btn btn-danger" @onclick="() => setCount(0)">Reset</button>
+</div>
+<p>Age: @age</p>
+<div class="form-group">
+    <button class="btn btn-primary" @onclick="() => setAge(18)">18</button>
+    <button class="btn btn-primary" @onclick="() => setAge(21)">21</button>
+    <button class="btn btn-primary" @onclick="() => setAge(50)">50</button>
+</div>
+<p>User: @user.FirstName @user.LastName</p>
+<p>Gender: @gender</p>
+<p>Address: @user.Address</p>
+
+<div class="form-group">
+    <label for="firstName">First Name</label>
+    <input id="firstName" class="form-control" value="@user.FirstName" @onchange="s => setUser(user.WithFirstName(s.Value.ToString()))" />
+</div>
+
+<div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input id="lastName" class="form-control" value="@user.LastName" @onchange="s => setUser(user.WithLastName(s.Value.ToString()))" />
+</div>
+
+<div class="form-group">
+    <label for="address">Address</label>
+    <input id="address" class="form-control" value="@user.Address" @onchange="s => setUser(user.WithAddress(s.Value.ToString()))" />
+</div>
+
+<div class="form-group">
+    <label for="gender">Gender</label>
+    <select id="gender" class="form-control" value="@gender" @onchange="a => OnGenderChange(a, setGender)">
+        <option value="Empty"></option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+</div>
+
+@code {
+
+    [Parameter]
+    public int InitialCount { get; set; }
+
+    protected void OnGenderChange(ChangeEventArgs args, Action<string> setGender)
+    {
+        setGender(args.Value.ToString());
+    }
+}

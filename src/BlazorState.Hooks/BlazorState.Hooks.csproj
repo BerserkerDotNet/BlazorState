@@ -1,18 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Andrii Snihyr</Authors>
+    <Company />
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/BerserkerDotNet/BlazorState</PackageProjectUrl>
     <RepositoryUrl>https://github.com/BerserkerDotNet/BlazorState</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageTags>Blazor Redux State Store LocalStorage</PackageTags>
+    <PackageTags>Blazor State Hooks</PackageTags>
+    <Description>Implementation of React Hooks on Blazor.</Description>
     <Copyright>Andrii Snihyr 2019</Copyright>
-    <Description>Storage support for BlazorState.Redux library.</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup>
     <IsPackable>true</IsPackable>
@@ -26,8 +28,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
     <CodeAnalysisRuleSet>..\..\StyleCop.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors />
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,20 +45,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.28">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BlazorState.Redux\BlazorState.Redux.csproj" />
   </ItemGroup>
 
 </Project>

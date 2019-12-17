@@ -1,0 +1,17 @@
+﻿<h1>Counter with Redux</h1>
+
+<p>Current count: @Props.Count</p>
+
+<button class="btn btn-primary" @onclick="Props.IncrementByOne">+1</button>
+<button class="btn btn-primary" @onclick="() => Props.IncrementBy.InvokeAsync(5)">+5</button>
+<button class="btn btn-primary" @onclick="() => Props.IncrementBy.InvokeAsync(10)">+10</button>
+
+<button class="btn btn-primary" @onclick="Props.DecrementByOne">-1</button>
+<button class="btn btn-primary" @onclick="() => Props.DecrementBy.InvokeAsync(5)">-5</button>
+<button class="btn btn-primary" @onclick="() => Props.DecrementBy.InvokeAsync(10)">-10</button>
+
+<button class="btn btn-danger" @onclick="Props.Reset">Reset</button>
+
+@code {
+    [Parameter] public CounterProps Props { get; set; }
+}

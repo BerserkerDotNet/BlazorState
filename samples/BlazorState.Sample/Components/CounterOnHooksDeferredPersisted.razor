@@ -1,0 +1,86 @@
+﻿@implements IDisposable
+@inherits PersistedHookedComponentBase<PersistedCounterState>
+
+@{ var (count, setCount) = UseState(s => s.Count); }
+@{ var (age, setAge) = UseState(s => s.Age); }
+@{ var (gender, setGender) = UseState(s => s.Gender); }
+@{ var (user, setUser) = UseState(s => s.User); }
+
+<h1>Defer state persistance</h1>
+
+@if (showNotification)
+{
+    <div class="alert alert-success" role="alert">
+        Changes saved!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<p>Current count: @count</p>
+<div class="form-group">
+    <button class="btn btn-primary" @onclick="() => setCount(count + 1)">+1</button>
+    <button class="btn btn-primary" @onclick="() => setCount(count - 1)">-1</button>
+    <button class="btn btn-danger" @onclick="() => setCount(0)">Reset</button>
+</div>
+<p>Age: @age</p>
+<div class="form-group">
+    <button class="btn btn-primary" @onclick="() => setAge(18)">18</button>
+    <button class="btn btn-primary" @onclick="() => setAge(21)">21</button>
+    <button class="btn btn-primary" @onclick="() => setAge(50)">50</button>
+</div>
+<p>User: @user.FirstName @user.LastName</p>
+<p>Gender: @gender</p>
+<p>Address: @user.Address</p>
+
+<div class="form-group">
+    <label for="firstName">First Name</label>
+    <input id="firstName" class="form-control" value="@user.FirstName" @onchange="s => setUser(user.WithFirstName(s.Value.ToString()))" />
+</div>
+
+<div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input id="lastName" class="form-control" value="@user.LastName" @onchange="s => setUser(user.WithLastName(s.Value.ToString()))" />
+</div>
+
+<div class="form-group">
+    <label for="address">Address</label>
+    <input id="address" class="form-control" value="@user.Address" @onchange="s => setUser(user.WithAddress(s.Value.ToString()))" />
+</div>
+
+<div class="form-group">
+    <label for="gender">Gender</label>
+    <select id="gender" class="form-control" value="@gender" @onchange="a => OnGenderChange(a, setGender)">
+        <option value="Empty"></option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+</div>
+
+<button class="btn btn-success" @onclick="Save">Save</button>
+
+@code {
+
+    private bool showNotification = false;
+
+    [Parameter]
+    public PersistedCounterState Props { get; set; }
+
+    protected void OnGenderChange(ChangeEventArgs args, Action<string> setGender)
+    {
+        setGender(args.Value.ToString());
+    }
+
+    protected override void OnInitialized()
+    {
+        DeferStatePersistans();
+        base.OnInitialized();
+    }
+
+    private void Save(MouseEventArgs args)
+    {
+        Persist();
+        showNotification = true;
+    }
+}

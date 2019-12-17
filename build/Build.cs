@@ -60,7 +60,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
-                .SetProjectFile(Solution.GetProject("BlazorState.Redux.Tests"))
+                .SetProjectFile(Solution.GetProject("BlazorState.Tests"))
                 .SetConfiguration(Configuration)
                 .SetLogger("trx")
                 .SetResultsDirectory(ArtifactsDirectory / "TestResults")
