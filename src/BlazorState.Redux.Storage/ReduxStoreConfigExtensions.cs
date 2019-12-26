@@ -1,7 +1,8 @@
 ﻿using System.Linq;
-using Blazor.Extensions.Storage;
 using BlazorState.Redux.Configuration;
 using BlazorState.Redux.Interfaces;
+using BlazorStorage.Extensions;
+using BlazorStorage.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorState.Redux.Storage
@@ -17,8 +18,8 @@ namespace BlazorState.Redux.Storage
                 config.Services.Remove(storageRegistration);
             }
 
-            config.Services.AddSingleton<LocalStorage>();
-            config.Services.AddSingleton<IStateStorage>(s => new LocalStorageProvider(key, s.GetService<LocalStorage>()));
+            config.Services.AddStorage();
+            config.Services.AddSingleton<IStateStorage>(s => new LocalStorageProvider(key, s.GetService<ILocalStorage>()));
         }
     }
 }
