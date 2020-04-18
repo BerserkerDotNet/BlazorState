@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
-using Blazor.Extensions.Storage;
 using BlazorState.Redux.Interfaces;
+using BlazorStorage.Interfaces;
 using Newtonsoft.Json;
 
 namespace BlazorState.Redux.Storage
@@ -9,9 +9,9 @@ namespace BlazorState.Redux.Storage
     public class LocalStorageProvider : IStateStorage
     {
         private readonly string _key;
-        private readonly LocalStorage _storage;
+        private readonly ILocalStorage _storage;
 
-        public LocalStorageProvider(string key, LocalStorage storage)
+        public LocalStorageProvider(string key, ILocalStorage storage)
         {
             _key = key;
             _storage = storage;
