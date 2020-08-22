@@ -46,9 +46,9 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.0" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.28">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.7" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

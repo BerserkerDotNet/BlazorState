@@ -44,7 +44,7 @@
 
   <ItemGroup>
     <PackageReference Include="BlazorStorage" Version="1.0.0" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.28">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

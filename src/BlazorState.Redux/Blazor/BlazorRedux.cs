@@ -17,6 +17,11 @@ namespace BlazorState.Redux.Blazor
 
         protected bool UseDevTools => !(DevTools is NullDevToolsInterop);
 
+        protected override Task OnInitializedAsync()
+        {
+            return base.OnInitializedAsync();
+        }
+
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             if (UseDevTools)
@@ -33,6 +38,7 @@ namespace BlazorState.Redux.Blazor
         {
             if (firstRender)
             {
+                // TODO: Move to OnInit?
                 await StoreInitializer.Initialize();
 
                 if (UseDevTools)

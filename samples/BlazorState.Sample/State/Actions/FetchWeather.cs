@@ -1,7 +1,7 @@
 ﻿using BlazorState.Redux.Interfaces;
 using BlazorState.Sample.State.Types;
-using Microsoft.AspNetCore.Components;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace BlazorState.Sample.State.Actions
@@ -17,7 +17,7 @@ namespace BlazorState.Sample.State.Actions
 
         public async Task Execute(IDispatcher dispatcher)
         {
-            var forecasts = await _http.GetJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+            var forecasts = await _http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
             dispatcher.Dispatch(new ReceiveWeatherForecastsAction
             {
                 Forecasts = forecasts
