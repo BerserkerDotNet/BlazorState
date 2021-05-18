@@ -39,5 +39,6 @@ namespace BlazorState.Sample.Components
             {
                 store.Dispatch(new ResetCountAction());
             });
+        }
     }
 }
