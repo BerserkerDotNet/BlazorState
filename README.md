@@ -1,14 +1,11 @@
 # BlazorState
 
 A collection of libraries to help manage state in Blazor applications.
+![deployment](https://github.com/BerserkerDotNet/BlazorState/workflows/deployment/badge.svg?branch=master)
 
-[![Build Status](https://berserkerdotnet.visualstudio.com/BlazorState.Redux/_apis/build/status/BerserkerDotNet.BlazorState.Redux?branchName=master)](https://berserkerdotnet.visualstudio.com/BlazorState.Redux/_build/latest?definitionId=8&branchName=master)
-
-[![Nuget](https://buildstats.info/nuget/BlazorState.Hooks?v=1.0.0)](https://www.nuget.org/packages/BlazorState.Hooks)
-
-[![Nuget](https://buildstats.info/nuget/BlazorState.Redux?v=1.0.0)](https://www.nuget.org/packages/BlazorState.Redux)
-
-[![Nuget](https://buildstats.info/nuget/BlazorState.Redux.Storage?v=1.0.0)](https://www.nuget.org/packages/BlazorState.Redux.Storage)
+[![NuGet Badge](https://buildstats.info/nuget/BlazorState.Hooks?includePreReleases=true)](https://www.nuget.org/packages/BlazorState.Hooks/)
+[![NuGet Badge](https://buildstats.info/nuget/BlazorState.Redux?includePreReleases=true)](https://www.nuget.org/packages/BlazorState.Redux/)
+[![NuGet Badge](https://buildstats.info/nuget/BlazorState.Redux.Storage?includePreReleases=true)](https://www.nuget.org/packages/BlazorState.Redux.Storage/)
 
 ## BlazorState.Hooks
 
@@ -41,7 +38,7 @@ Define state using `UseState` method in the markup.
     <button class="btn btn-danger" @onclick="() => setCount(0)">Reset</button>
 </div>
 ```
-In this case component state is created per component insatnce and disposed when component gets disposed.
+In this case component state is created per component instance and disposed when component gets disposed.
 
 See [CounterOnHooks.razor](https://github.com/BerserkerDotNet/BlazorState/blob/master/samples/BlazorState.Sample/Components/CounterOnHooks.razor) for an example.
 
@@ -71,12 +68,18 @@ Define state using `UseState` method.
   }
 ```
 
-By default, value is immediatly set to the backing entity property, this can behavior can be changed by calling `DeferStatePersistans` method in the component initializer. Later when ready to synchronize state with a backing object, call `Persist` method.
+By default, value is immediately set to the backing entity property, this behavior can be changed by calling `DeferStatePersistans` method in the component initializer. Later when ready to synchronize state with a backing object, call `Persist` method.
 See, [CounterOnHooksDeferredPersisted](https://github.com/BerserkerDotNet/BlazorState/blob/master/samples/BlazorState.Sample/Components/CounterOnHooksDeferredPersisted.razor) for an example.
 
 All samples can be found here [samples](https://github.com/BerserkerDotNet/BlazorState/tree/master/samples/BlazorState.Sample/Components).
 
 ## BlazorState.Redux
+
+### v1.1 Change log
+1. Simplified a way to define and use connected component.
+1. Fixed re-rendering issue wi connected component
+1. Log AsyncActions to the Redux DevTools
+1. Updated dependencies
 
 As the name suggests it is a port of [React-Redux][1] library to Blazor/.NET world.
 
@@ -142,15 +145,15 @@ where `WeatherState` is:
 ```
 **Note:** Name `RootState` is completely arbitrary and can be anything.
 
-In Redux, state is immutable, meaning that if it needs to be mutated a new state object is created. For that purpose, `WeatherState` does not expose setter of its properties, and doesn't not have a default constructor. 
+In Redux, state is immutable, meaning that if it needs to change a new state object is created. For that purpose, `WeatherState` does not expose setters for its properties.
 
-`RootState` itself is handled by a out of the box reducer and don't must have a default constructor.
+`RootState` change is handled by an out of the box reducer and must have a default constructor.
 
 ## Boilerplate code
 
-Now, when state shape is defined, some configuration needs to be put in place for Redux to work.
+When state shape is defined, some configuration needs to be put in place for Redux to work.
 
-In `Startup.cs` add the following line to the `ConfigureServices` method:
+In your services configuration (`Startup.cs` or `Program.cs`) add the following line:
 ```csharp
 services.AddReduxStore<RootState>(cfg =>
 {
@@ -161,7 +164,7 @@ services.AddReduxStore<RootState>(cfg =>
 This registers all services needed for Redux to function properly. Also, it provides a configurator that can be used to configure reducers, actions, and other options.
 See `Configuration` section below.
 
-Finally, in `App.razor` add a `BlazorRedux` component before `Router` component.
+Next, in `App.razor` add a `BlazorRedux` component before `Router` component.
 
 ```html
 <BlazorRedux />
@@ -183,7 +186,7 @@ For the component to be found `@using BlazorState.Redux.Blazor` statement needs 
 
 ## Defining components
 
-As in `React-Redux` there are same two kinds of component in `Blazor-Redux`.
+As in `React-Redux` there are also two kinds of component in `Blazor-Redux`.
 First, is presentational component, this component does not have access to the application state and takes all it needs from `props` object that is passed to it. Similarly, the outgoing communication is also done through callbacks, that are passed with `props`. In simple words, this component only renders data that is passed to it.
 
 Here is an example of the `Counter` presentational component:
@@ -229,56 +232,56 @@ Second, is container component, or connected component. It is called connected, 
 
 Here is an example of the `CounterConnected` component:
 ```csharp
-public class CounterConnected
+public class CounterConnected : ConnectedComponent<Counter, RootState, CounterProps>
 {
-    public static RenderFragment Get()
-    {
-        var c = new CounterConnected();
-        return ComponentConnector.Connect<Counter, RootState, CounterProps>(c.MapStateToProps, c.MapDispatchToProps);
-    }
-
-    private void MapStateToProps(RootState state, CounterProps props)
+    protected override void MapStateToProps(RootState state, CounterProps props)
     {
         props.Count = state?.Count ?? 0;
     }
-
-    private void MapDispatchToProps(IStore<RootState> store, CounterProps props)
+    protected override void MapDispatchToProps(IStore<RootState> store, CounterProps props)
     {
         props.IncrementByOne = EventCallback.Factory.Create(this, () =>
         {
             store.Dispatch(new IncrementByOneAction());
         });
-
         props.IncrementBy = EventCallback.Factory.Create<int>(this, amount =>
         {
             store.Dispatch(new IncrementByAction { Amount = amount });
         });
-
         props.DecrementByOne = EventCallback.Factory.Create(this, () =>
         {
             store.Dispatch(new DecrementByOneAction());
         });
-
         props.DecrementBy = EventCallback.Factory.Create<int>(this, amount =>
         {
             store.Dispatch(new DecrementByAction { Amount = amount });
         });
-
         props.Reset = EventCallback.Factory.Create(this, () =>
         {
             store.Dispatch(new ResetCountAction());
         });
     }
+
+    protected async override Task Init(IStore<RootState> store)
+    {
+        // Optional
+    }
 }
 ```
-This is a lot of code, so, lets unpack what's going on.
 
-There is a static `Get` method that returns a `RenderFragment`. This method uses `ComponentConnector.Connect` method to connect container component to the store. This method accepts the following 2 parameters:
+Connected component must inherit from `ConnectedComponent` and provide 3 type arguments:
+1. Presentational component to connect
+1. Type of the application state (Root state)
+1. Props type of the presentational component
+
+`ConnectedComponent` base class defines two abstract methods that need to be implemented:
 1. MapStateToProps - method responsible for mapping state object to presentational component `props` object. This method is called every time the state changes.
 2. MapDispatchToProp - method responsible for mapping presentational components callbacks to dispatch methods. This method is called once, when component initializes.
 
+Additionally, there is an Init method that can be used to do data fetching or some other initialization logic. See '['Async actions' for more details.
+
 ## Making some actions
-Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using `store.Dispatch()`.
+Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. Send them to the store using `store.Dispatch()`.
 
 Example of `IncrementByAction` action:
 ```csharp
@@ -319,17 +322,27 @@ public class CountReducer : IReducer<int>
 
 Reducer must implement `IReducer<TState>` interface, where `TState` is a type of state this particular reducer handles.
 In the example above, the state this reducer handles is of type `int`, but it can be any C# object.
-It is important to remember that reducer is a pure function, it should not produce side effects. Reducer must always return new state and should never modify existing state.
+It is important to remember that reducer is a pure function, it should not produce side effects. In case of a change reducer must always return new state and should never modify existing state.
 For example, `WeatherReducer` will look like this:
 ```csharp
 public class WeatherReducer : IReducer<WeatherState>
 {
+    private static Random random = new Random();
     public WeatherState Reduce(WeatherState state, IAction action)
     {
         switch (action)
         {
             case ReceiveWeatherForecastsAction a:
                 return new WeatherState(a.Forecasts);
+            case AddRandomForecast a:
+                var forecasts = new List<WeatherForecast>(state.Forecasts);
+                forecasts.Add(new WeatherForecast
+                {
+                    Date = DateTime.Today.AddDays(random.Next(1, 30)),
+                    Summary = $"There is {random.Next(0, 100)}% chance of rain.",
+                    TemperatureC = random.Next(10, 40)
+                });
+                return new WeatherState(forecasts);
             default:
                 return state;
         }
@@ -348,7 +361,7 @@ services.AddReduxStore<RootState>(cfg =>
 });
 ```
 
-Note: Reducer must have a default parameterless constructor.
+Note: Reducer must have a default parameter-less constructor.
 
 ## Render component
 
@@ -356,18 +369,14 @@ When all necessary components are in place, it is time to place component(s) on 
 This is typically done by using static `Get` method on the connected component. See section `Defining components` for more details. This method returns `RenderFragment` that can be directly rendered on the page. Clean and simple.
 
 Here is an example of the `Counter` page rendering `Counter` component.
-```razor
+```html
 @page "/counter"
 
-@CounterCmp
-
-@code {
-    RenderFragment CounterCmp = CounterConnected.Get();
-}
+<CounterConnected />
 ```
 
 ## DevTools
-To configure DevTools, simply add `cfg.UseReduxDevTools();` to the configuration callback in `Startup.cs`:
+To configure DevTools, add `cfg.UseReduxDevTools();` to the configuration callback in `Startup.cs`:
 ```csharp
 services.AddReduxStore<RootState>(cfg =>
 {

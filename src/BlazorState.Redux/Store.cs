@@ -73,6 +73,7 @@ namespace BlazorState.Redux
                 throw new ActionIsNotRegisteredException($"{typeof(TAsyncAction)} is not registered in the container.");
             }
 
+            await _devToolsInterop.Send(action, State);
             await action.Execute(this, property);
         }
 
@@ -85,6 +86,7 @@ namespace BlazorState.Redux
                 throw new ActionIsNotRegisteredException($"{typeof(TAsyncAction)} is not registered in the container.");
             }
 
+            await _devToolsInterop.Send(action, State);
             await action.Execute(this);
         }
 

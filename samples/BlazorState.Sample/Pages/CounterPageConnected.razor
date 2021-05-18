@@ -1,0 +1,54 @@
+﻿@page "/counter-page-connected"
+@inherits ConnectedComponentBase<RootState, CounterProps>
+@using BlazorState.Sample.State.Actions
+
+<h1>Connected counter page (Redux)</h1>
+
+<p>Current count: @Props.Count</p>
+
+<button class="btn btn-primary" @onclick="Props.IncrementByOne">+1</button>
+<button class="btn btn-primary" @onclick="() => Props.IncrementBy.InvokeAsync(5)">+5</button>
+<button class="btn btn-primary" @onclick="() => Props.IncrementBy.InvokeAsync(10)">+10</button>
+
+<button class="btn btn-primary" @onclick="Props.DecrementByOne">-1</button>
+<button class="btn btn-primary" @onclick="() => Props.DecrementBy.InvokeAsync(5)">-5</button>
+<button class="btn btn-primary" @onclick="() => Props.DecrementBy.InvokeAsync(10)">-10</button>
+
+<button class="btn btn-danger" @onclick="Props.Reset">Reset</button>
+
+
+@code {
+	protected override void MapStateToProps(RootState state, CounterProps props)
+	{
+		props.Count = state?.Count ?? 0;
+	}
+
+	protected override void MapDispatchToProps(IStore<RootState> store, CounterProps props)
+	{
+		props.IncrementByOne = EventCallback.Factory.Create(this, () =>
+		{
+			store.Dispatch(new IncrementByOneAction());
+		});
+
+		props.IncrementBy = EventCallback.Factory.Create<int>(this, amount =>
+		{
+			store.Dispatch(new IncrementByAction { Amount = amount });
+		});
+
+		props.DecrementByOne = EventCallback.Factory.Create(this, () =>
+		{
+			store.Dispatch(new DecrementByOneAction());
+		});
+
+		props.DecrementBy = EventCallback.Factory.Create<int>(this, amount =>
+		{
+			store.Dispatch(new DecrementByAction { Amount = amount });
+		});
+
+		props.Reset = EventCallback.Factory.Create(this, () =>
+		{
+			store.Dispatch(new ResetCountAction());
+		});
+	}
+
+}

@@ -2,12 +2,12 @@
 
 namespace BlazorState.Redux.Interfaces
 {
-    public interface IAsyncAction<TProperty>
+    public interface IAsyncAction<TProperty> : IAction
     {
         Task Execute(IDispatcher dispatcher, TProperty property);
     }
 
-    public interface IAsyncAction
+    public interface IAsyncAction : IAction
     {
         Task Execute(IDispatcher dispatcher);
     }

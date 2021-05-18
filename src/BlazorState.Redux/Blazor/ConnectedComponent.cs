@@ -6,20 +6,11 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace BlazorState.Redux.Blazor
 {
-    public class ComponentConnected<TComponent, TState, TProps> : ComponentBase, IDisposable
+    public abstract class ConnectedComponent<TComponent, TState, TProps> : ComponentBase, IDisposable
         where TComponent : ComponentBase
         where TProps : new()
     {
         private TProps _props;
-
-        [Parameter]
-        public Action<TState, TProps> MapStateToProps { get; set; }
-
-        [Parameter]
-        public Action<IStore<TState>, TProps> MapDispatchToProps { get; set; }
-
-        [Parameter]
-        public Func<IStore<TState>, Task> Init { get; set; }
 
         [Inject]
         protected IStore<TState> Store { get; set; }
@@ -29,23 +20,19 @@ namespace BlazorState.Redux.Blazor
             Store.OnStateChanged -= OnStateChanged;
         }
 
-        protected override void OnInitialized()
+        protected abstract void MapStateToProps(TState state, TProps props);
+
+        protected abstract void MapDispatchToProps(IStore<TState> store, TProps props);
+
+        protected virtual Task Init(IStore<TState> store)
         {
-            InitializeProps();
-            Store.OnStateChanged += OnStateChanged;
+            return Task.CompletedTask;
         }
 
-        protected override async Task OnParametersSetAsync()
+        protected override async Task OnInitializedAsync()
         {
-            if (MapStateToProps == null || MapDispatchToProps == null)
-            {
-                throw new ArgumentNullException($"Connect requires both {nameof(MapStateToProps)} and ${nameof(MapDispatchToProps)} to be set.");
-            }
-
-            if (Init != null)
-            {
-                await Init(Store);
-            }
+            Store.OnStateChanged += OnStateChanged;
+            await InitializeProps();
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -63,7 +50,7 @@ namespace BlazorState.Redux.Blazor
             this.StateHasChanged();
         }
 
-        private void InitializeProps()
+        private async ValueTask InitializeProps()
         {
             if (_props == null)
             {
@@ -71,6 +58,8 @@ namespace BlazorState.Redux.Blazor
                 MapDispatchToProps(Store, _props);
                 MapStateToProps(Store.State, _props);
             }
+
+            await Init(Store);
         }
     }
 }

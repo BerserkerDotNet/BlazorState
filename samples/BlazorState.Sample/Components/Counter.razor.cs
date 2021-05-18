@@ -6,20 +6,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorState.Sample.Components
 {
-    public class CounterConnected
+    public class CounterConnected : ConnectedComponent<Counter, RootState, CounterProps>
     {
-        public static RenderFragment Get()
-        {
-            var c = new CounterConnected();
-            return ComponentConnector.Connect<Counter, RootState, CounterProps>(c.MapStateToProps, c.MapDispatchToProps);
-        }
-
-        private void MapStateToProps(RootState state, CounterProps props)
+        protected override void MapStateToProps(RootState state, CounterProps props)
         {
             props.Count = state?.Count ?? 0;
         }
 
-        private void MapDispatchToProps(IStore<RootState> store, CounterProps props)
+        protected override void MapDispatchToProps(IStore<RootState> store, CounterProps props)
         {
             props.IncrementByOne = EventCallback.Factory.Create(this, () =>
             {
@@ -45,6 +39,5 @@ namespace BlazorState.Sample.Components
             {
                 store.Dispatch(new ResetCountAction());
             });
-        }
     }
 }

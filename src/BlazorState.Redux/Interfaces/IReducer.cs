@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BlazorState.Redux.Interfaces
+﻿namespace BlazorState.Redux.Interfaces
 {
     public interface IReducer<TState>
     {
