@@ -78,9 +78,9 @@ All samples can be found here [samples](https://github.com/BerserkerDotNet/Blazo
 
 ### v1.1 Change log
 1. Simplified a way to define and use connected component.
-1. Fixed re-rendering issue wi connected component
-1. Log AsyncActions to the Redux DevTools
-1. Updated dependencies
+1. Fixed re-rendering issue wi connected component.
+1. Log AsyncActions to the Redux DevTools.
+1. Updated dependencies.
 
 As the name suggests it is a port of [React-Redux][1] library to Blazor/.NET world.
 
