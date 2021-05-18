@@ -1,7 +1,8 @@
 # BlazorState
 
 A collection of libraries to help manage state in Blazor applications.
-![deployment](https://github.com/BerserkerDotNet/BlazorState/workflows/deployment/badge.svg?branch=master)
+
+[![deployment](https://github.com/BerserkerDotNet/BlazorState/actions/workflows/deployment.yml/badge.svg)](https://github.com/BerserkerDotNet/BlazorState/actions/workflows/deployment.yml)
 
 [![NuGet Badge](https://buildstats.info/nuget/BlazorState.Hooks?includePreReleases=true)](https://www.nuget.org/packages/BlazorState.Hooks/)
 [![NuGet Badge](https://buildstats.info/nuget/BlazorState.Redux?includePreReleases=true)](https://www.nuget.org/packages/BlazorState.Redux/)
