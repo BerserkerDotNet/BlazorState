@@ -15,6 +15,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Nuke.Common" Version="5.1.1" />
+    <PackageDownload Include="NuGet.CommandLine" Version="[5.9.1]" />
   </ItemGroup>
 
   <ItemGroup>
