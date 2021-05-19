@@ -8,6 +8,8 @@ A collection of libraries to help manage state in Blazor applications.
 [![NuGet Badge](https://buildstats.info/nuget/BlazorState.Redux?includePreReleases=true)](https://www.nuget.org/packages/BlazorState.Redux/)
 [![NuGet Badge](https://buildstats.info/nuget/BlazorState.Redux.Storage?includePreReleases=true)](https://www.nuget.org/packages/BlazorState.Redux.Storage/)
 
+For recent changes see [CHANGELOG](https://github.com/BerserkerDotNet/BlazorState/blob/master/CHANGELOG.md)
+
 ## BlazorState.Hooks
 
 Is an easy and light weight way of managing state in Blazor app.
@@ -75,12 +77,6 @@ See, [CounterOnHooksDeferredPersisted](https://github.com/BerserkerDotNet/Blazor
 All samples can be found here [samples](https://github.com/BerserkerDotNet/BlazorState/tree/master/samples/BlazorState.Sample/Components).
 
 ## BlazorState.Redux
-
-### v1.1 Change log
-1. Simplified a way to define and use connected component.
-1. Fixed re-rendering issue wi connected component.
-1. Log AsyncActions to the Redux DevTools.
-1. Updated dependencies.
 
 As the name suggests it is a port of [React-Redux][1] library to Blazor/.NET world.
 
