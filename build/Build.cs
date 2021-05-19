@@ -129,13 +129,13 @@ class Build : NukeBuild
     private bool IsPackageAlreadyPublished()
     {
         ToolPathResolver.NuGetPackagesConfigFile = Solution.GetProject("_build").Path;
-        var output = NuGetTasks.NuGet($"list \"PackageId: BlazorState\" -PreRelease -Source {Source}", RootDirectory);
+        var output = NuGetTasks.NuGet($"list \"PackageId: BlazorState.Redux\" -PreRelease -Source {Source}", RootDirectory);
         if (output.Count == 0)
         {
             return false;
         }
 
-        var version = output.ElementAt(0).Text.Replace("BlazorState", string.Empty).Trim();
+        var version = output.ElementAt(0).Text.Replace("BlazorState.Redux", string.Empty).Trim();
         var count = PackagesDirectory.GlobFiles($"*{version}*.nupkg").Count;
 
         return count > 0;
